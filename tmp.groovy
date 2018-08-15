@@ -56,25 +56,32 @@ new File(date + '_catalog.xml').createNewFile()
 Logger logger = Logger.getLogger("test.log")
 logger.info ("I am a test info log")
 
-String fileContents = new File('catalog-1533807464904_formatted.xml').text
-rt = new XmlSlurper().parseText(fileContents)
+//String fileContents = new File('catalog-1533807464904_formatted.xml').text
+//rt = new XmlSlurper().parseText(fileContents)
+
+def xmlFile = "catalog-1533807464904_formatted.xml"
+def rt = new XmlParser().parse(xmlFile)
 
 //def wtf = [:]
 //wtf = ['articleNo:${articleNo}', 'prodName:${name}']
 
-def wtf = new XmlSlurper().parseText(fileContents)
+//def wtf = new XmlSlurper().parseText(fileContents)
 
-println "Nr is: ${rt.Body.articles.article.articleNo}"
-println "Name is: ${wtf.Body.articles.article.localeArticle.name}"
+//println "articleNo is: ${rt.articles.article.articleNo}"
+//println "Name is: ${rt.articles.article.localeArticle.name}"
 
+nu = rt.Row.collect${rt.article}
+countMap = rt.unique(false).collectEntries{article -> [article, rt.count(article)]}
+
+println "${countMap}"
 /*
 //String fileContents = new File('catalog-1533807464904_formatted.xml').text
 
 //static void main(args) {
     String fileContents = new File('catalog-1533807464904_formatted.xml').text
     rt = new XmlSlurper().parseText(fileContents)
-    //nu = cmlObj.Row.collect{rt.article}
-    //countMap = nu.unique(false).collectEntries{article -> [article, nu.count(article)]}
+    nu = rt.Row.collect{rt.article}
+    countMap = nu.unique(false).collectEntries{article -> [article, nu.count(article)]}
 
     def wtf = [:]
     wtf = [articleNo:${rt.articleNo}, name:${rt.name}]
